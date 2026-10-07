@@ -1,0 +1,8 @@
+CompileFlags:
+  Remove:
+    - -mlongcalls
+    - -mtext-section-literals
+    - -fno-tree-switch-conversion
+    - -fstrict-volatile-bitfields
+    - -free*
+    - -fstack-protector

@@ -1,4 +1,7 @@
-.zig-cache/
-zig-out/
-zig-pkg/
+.pio/
+zig-old/.zig-cache/
 *.o
+flash.bin
+compile_commands.json
+src/secrets.h
+blocklist.bin

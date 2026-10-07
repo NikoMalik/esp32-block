@@ -1,0 +1,11 @@
+# Single-app + mmap layout for 4MB flash.
+# No firmware OTA -> reflash firmware over USB. Blocklist lives in its own raw
+# partition (memory-mapped for fast lookup); a small LittleFS holds runtime state
+# (custom.txt / banned.txt / update.cfg). App 1.375MB. blocklist 2.375MB (v2 blob
+# ~1.6MB for 475k, room to grow). LittleFS 192KB.
+# Name,      Type, SubType, Offset,   Size
+nvs,        data, nvs,     0x9000,   0x5000
+otadata,    data, ota,     0xe000,   0x2000
+app0,       app,  ota_0,   0x10000,  0x160000
+blocklist,  data, 0x40,    0x170000, 0x260000
+spiffs,     data, spiffs,  0x3d0000, 0x30000
