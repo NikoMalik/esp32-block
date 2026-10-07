@@ -46,7 +46,7 @@ static void handleStats() {
                ",\"upurl\":\"" + jesc(updateUrl) + "\",\"upiv\":" + updateIntervalH + ",\"upstat\":\"" + jesc(updateStatus) + "\"" +
                ",\"blocking\":" + (dns.blockingOn ? "true" : "false") +
                ",\"resumeIn\":" + (uint32_t)(!dns.blockingOn && dns.resumeAt ? (dns.resumeAt - millis()) / 1000 : 0) +
-               ",\"defcreds\":" + ((strcmp(WEB_PASS, "CHANGE_ME_WEB_PASSWORD") == 0 || strcmp(OTA_PASS, "CHANGE_ME_OTA_PASSWORD") == 0) ? "true" : "false") +
+               ",\"defcreds\":" + (strcmp(WEB_PASS, "CHANGE_ME_WEB_PASSWORD") == 0 ? "true" : "false") +
                ",\"clients\":[";
     for (int i = 0; i < clients.count; i++) {
         Dev &c = clients.list[i];

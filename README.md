@@ -49,20 +49,36 @@ The box comes already flashed. You only connect it to your WiFi:
 
 Done - the box is online. Leave it plugged into power.
 
-### Make it block ads on every device
+### Make it block ads on every device (point your router at it)
 
-The box is a DNS server; devices use it only if you point their DNS at it. Two ways:
+The box is a DNS server: a device only filters ads if its DNS is set to the box.
+The clean way is to set it once on the **router** so every phone/TV/laptop uses it
+automatically.
 
-- **Whole home (recommended):** in your **router** settings, under DHCP / LAN, set the
-  "DNS server" to the box's IP. Every device then filters automatically.
-- **One device:** in that device's WiFi settings, set DNS to the box's IP.
+**1. Find the box's IP.** Open `http://c3adblock.local` (or check the dashboard's
+`IP` field, your router's "connected devices" list, or the serial log at boot:
+`WiFi up: <ip>`). Example: `192.168.1.50`.
 
-Find the box's IP on its dashboard (the `IP` field), in your router's client list, or
-in the serial log. Tip: give the box a **static IP** (DHCP reservation by its MAC) so
-the address never changes.
+**2. (recommended) Reserve that IP for the box.** In your router admin, find
+*DHCP reservation* / *static lease*, and bind the box's MAC to its current IP. This
+stops the address from changing later and breaking DNS for everyone.
 
-> Router requirements: just a normal home router with a 2.4 GHz network and the ability
-> to set a custom DNS (almost all can). No special hardware.
+**3. Set the router's DNS to the box.** In the router admin, open the LAN / DHCP
+settings and set **DNS server** to the box's IP (`192.168.1.50` in the example).
+Where exactly depends on the brand:
+- it's usually under *Network / LAN / DHCP server*, a field called *DNS 1* / *Primary DNS*
+- set DNS 1 = the box; leave DNS 2 empty, or set a fallback like `9.9.9.9` (note: if
+  you add a fallback, devices may use it and skip filtering - for strict blocking
+  leave only the box)
+- save and reboot the router (or just reconnect a device) so the new DNS is handed out
+
+**Prefer not to touch the router?** Set DNS to the box on a single device instead
+(phone/laptop WiFi settings -> DNS -> manual -> the box's IP). Only that device filters.
+
+> Router requirements: a normal home router with a 2.4 GHz network and a settable DNS
+> (almost all have it). No special hardware. If the box reboots and devices use only
+> it for DNS, the internet pauses until it's back - that's why a reserved IP + leaving
+> it powered matters.
 
 ---
 
@@ -112,6 +128,22 @@ Other targets: `make build`, `make upload`, `make blobflash`, `make dev`
 After the first USB flash, the **blocklist updates over WiFi** from the dashboard
 (it is written straight into its flash partition); firmware changes still go over
 USB (single-app layout, no firmware OTA).
+
+---
+
+## Configuration (`secrets.h`)
+
+Copy `src/secrets.example.h` to `src/secrets.h` (gitignored) and set:
+
+| field | what it is | required? |
+|---|---|---|
+| `WIFI_SSID` / `WIFI_PASS` | your home WiFi, used as a **fallback** if the box has no saved network. Leave as `YOUR_WIFI_SSID` to skip - setup is normally done from the phone (captive portal). Handy if you flash for your own network. | optional |
+| `WEB_USER` / `WEB_PASS` | **dashboard login** (HTTP Basic Auth). Guards every control action (ban, add/remove domain, pause, blocklist upload, forget-wifi). Set a real `WEB_PASS` before putting the box on a network you share. The dashboard shows a red warning while it's the placeholder. | set before use |
+| `AP_PASS` | password for the box's **setup WiFi** (`C3-AdBlock-XXXX`) shown during provisioning. `>=8` chars turns on WPA2 so only someone you gave it to can open the setup page; **empty string = open** (anyone nearby can). This is the password you hand out with the box. | recommended |
+
+Only `WEB_PASS` and `AP_PASS` matter for security; WiFi is usually set from the phone,
+not here. (There is no `OTA_PASS` - network firmware update was removed; firmware is
+flashed over USB.)
 
 ---
 

@@ -48,8 +48,8 @@ void setup() {
         MDNS.addService("http", "tcp", 80);
         Serial.println("dashboard: http://c3adblock.local");
     }
-    if (strcmp(WEB_PASS, "CHANGE_ME_WEB_PASSWORD") == 0 || strcmp(OTA_PASS, "CHANGE_ME_OTA_PASSWORD") == 0)
-        Serial.println("[WARN] secrets.h still has placeholder WEB_PASS/OTA_PASS — set real values");
+    if (strcmp(WEB_PASS, "CHANGE_ME_WEB_PASSWORD") == 0)
+        Serial.println("[WARN] secrets.h still has placeholder WEB_PASS — set a real value");
 
     dns.begin();
     web_begin();
