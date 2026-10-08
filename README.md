@@ -180,7 +180,7 @@ is split into a 16-bit prefix and a 24-bit suffix, and the list is grouped into
 65536 "buckets" by prefix. The prefix is **not stored**: the bucket a suffix lives
 in already encodes it (position = data). Only the 24-bit suffix is written =
 **3 bytes/domain**. So ~645k domains take ~2 MB, versus ~2.5 MB of raw text that
-also wouldn't fit in RAM to search. Full write-up: `docs/design-blocklist.md`.
+also wouldn't fit in RAM to search.
 
 **Fast.** A lookup is three cheap steps - no filesystem, no PSRAM, no string compares:
 
@@ -194,9 +194,9 @@ through the flash cache like RAM, so steps 2-3 are just a few cache-line reads.
 That is the main speed win. The earlier design kept the list as a LittleFS file and
 did one random filesystem read per lookup (~1.2 ms); mmap + buckets dropped that to 8 us 150x faster, ~123k lookups/sec.
 
-Modules (each a struct + methods): `blocklist` (hash + mmap lookup), `dns` (server,
-forward upstream), `wifi` (connect + captive portal), `web` (dashboard), `clients`
-(per-device table). `main.cpp` is just `setup()`/`loop()`.
+Modules: `blocklist` (hash + mmap lookup), `dns` (server, forward upstream), `wifi`
+(connect + captive portal), `web` (dashboard), `clients` (per-device table).
+`main.cpp` is just `setup()`/`loop()`.
 
 ---
 
