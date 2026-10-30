@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flash esp32-block</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --card: #fff;
+    --border: #e3e3e3;
+    --accent: #2e7d32;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141414;
+      --fg: #eaeaea;
+      --muted: #9a9a9a;
+      --card: #1e1e1e;
+      --border: #333;
+      --accent: #66bb6a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+  }
+  main { width: 100%; max-width: 560px; }
+  h1 { font-size: 1.9rem; margin: 0 0 .3em; }
+  p { margin: 0 0 1em; }
+  .muted { color: var(--muted); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  esp-web-install-button { display: inline-block; }
+  esp-web-install-button[install-unsupported] { display: none; }
+  .unsupported {
+    display: none;
+    color: #c62828;
+  }
+  esp-web-install-button[install-unsupported] + .unsupported { display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; margin-top: .5em; }
+  td { padding: 4px 0; border-top: 1px solid var(--border); }
+  td:last-child { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+  code { background: var(--border); padding: 1px 5px; border-radius: 4px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Flash esp32-block</h1>
+  <p class="muted">A tiny DNS ad blocker for the whole network, on a $5 ESP32. Plug the board into USB and flash it straight from this page -&gt; no toolchain, no app.</p>
+
+  <div class="card">
+    <esp-web-install-button manifest="./manifest.json"></esp-web-install-button>
+    <p class="unsupported">Your browser can't talk to serial devices. Open this page in <strong>Chrome</strong> or <strong>Edge</strong> on a desktop.</p>
+  </div>
+
+  <p>Click <strong>Install</strong>, pick your board's serial port, and let it run. If no port shows up, hold the <strong>BOOT</strong> button while connecting. After it finishes, the box joins your WiFi from your phone (captive portal) -&gt; see the <a href="https://github.com/NikoMalik/esp32-block#quick-start-end-user">README</a>.</p>
+
+  <p class="muted">What gets written (classic ESP32, 4 MB flash):</p>
+  <table>
+    <tr><td>bootloader</td><td>0x1000</td></tr>
+    <tr><td>partition table</td><td>0x8000</td></tr>
+    <tr><td>boot app selector</td><td>0xe000</td></tr>
+    <tr><td>firmware</td><td>0x10000</td></tr>
+    <tr><td>blocklist (~645k domains)</td><td>0x170000</td></tr>
+  </table>
+</main>
+
+<script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+</body>
+</html>

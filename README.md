@@ -100,6 +100,18 @@ State-changing actions require the dashboard login (`WEB_USER` / `WEB_PASS`).
 
 ---
 
+## Flash from your browser (no toolchain)
+
+Got a bare board and don't want to install anything? Open
+**<https://nikomalik.github.io/esp32-block/>** in Chrome or Edge, plug the ESP32
+into USB, and click **Install**. It writes firmware + the full blocklist in one
+go. Classic ESP32 only for now.
+
+(The page is `docs/`, served by GitHub Pages; the `web-flasher` workflow builds
+the firmware on each release and publishes it with the install page.)
+
+---
+
 ## Build & flash (developers)
 
 Needs [PlatformIO](https://platformio.org/) (`pio`) and `make`.
