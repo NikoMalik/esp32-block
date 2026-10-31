@@ -28,7 +28,9 @@ jobs:
         run: pip install platformio
 
       - name: Build firmware
-        run: pio run -e esp32dev
+        run: |
+          cp src/secrets.example.h src/secrets.h
+          pio run -e esp32dev
 
       - name: Assemble site
         run: |
