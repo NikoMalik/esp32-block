@@ -32,6 +32,9 @@ jobs:
           cp src/secrets.example.h src/secrets.h
           pio run -e esp32dev
 
+      - name: Build blocklist
+        run: make blocklist
+
       - name: Assemble site
         run: |
           mkdir -p site
